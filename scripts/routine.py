@@ -23,8 +23,15 @@ SKILLS = ROOT / ".claude" / "skills"
 TASK = "PantheonSeedRoutine"
 
 
+def run_(*args, **kw):
+    """subprocess.run без консольного окна: из рутины под pythonw каждый git иначе мигал бы окном."""
+    if sys.platform == "win32":
+        kw.setdefault("creationflags", subprocess.CREATE_NO_WINDOW)
+    return subprocess.run(*args, **kw)
+
+
 def git(*args):
-    r = subprocess.run(["git", "-C", str(ROOT), *args], capture_output=True, text=True, encoding="utf-8")
+    r = run_(["git", "-C", str(ROOT), *args], capture_output=True, text=True, encoding="utf-8")
     return r.returncode, r.stdout.rstrip(), r.stderr.strip()
 
 
@@ -46,7 +53,7 @@ def check():
     scripts = [p for p in ROOT.rglob("*.py") if ".git" not in p.parts and p.name != "routine.py"]
     for py in scripts:
         try:
-            r = subprocess.run([sys.executable, "-I", str(py), "--help"], capture_output=True, text=True,
+            r = run_([sys.executable, "-I", str(py), "--help"], capture_output=True, text=True,
                                encoding="utf-8", errors="replace", timeout=30)
             if "Traceback" in r.stderr:
                 problems.append(f"{py.relative_to(ROOT)}: падает на --help — {r.stderr.strip().splitlines()[-1]}")
@@ -78,7 +85,7 @@ def usage():
 
 
 def patterns():
-    r = subprocess.run([sys.executable, "-I", str(ROOT / "scripts" / "pattern_counter.py")],
+    r = run_([sys.executable, "-I", str(ROOT / "scripts" / "pattern_counter.py")],
                        capture_output=True, text=True, encoding="utf-8", errors="replace")
     keep = [l for l in r.stdout.splitlines() if l.startswith(("Трейсов", "- классов", "- **G**", "- **D**", "Кандидатов"))]
     return keep or ["счётчик ничего не вывел"]
@@ -167,13 +174,16 @@ def apply():
 
 
 def install(dry=False):
-    cmd = f'"{sys.executable}" -I "{Path(__file__).resolve()}" run'
+    exe = Path(sys.executable)
+    if sys.platform == "win32" and exe.with_name("pythonw.exe").exists():
+        exe = exe.with_name("pythonw.exe")  # без консольного окна, которое иначе мигало бы каждый день
+    cmd = f'"{exe}" -I "{Path(__file__).resolve()}" run'
     if sys.platform == "win32":
         args = ["schtasks", "/Create", "/SC", "DAILY", "/ST", "09:00", "/TN", TASK, "/TR", cmd, "/F"]
         if dry:
             print(" ".join(args))
             return
-        r = subprocess.run(args, capture_output=True, text=True)
+        r = run_(args, capture_output=True, text=True)
         print(r.stdout.strip() or r.stderr.strip())
     else:
         print("Добавь строку в crontab (crontab -e):\n0 9 * * * " + cmd.replace('"', ""))
@@ -181,21 +191,30 @@ def install(dry=False):
 
 def uninstall():
     if sys.platform == "win32":
-        subprocess.run(["schtasks", "/Delete", "/TN", TASK, "/F"])
+        run_(["schtasks", "/Delete", "/TN", TASK, "/F"])
     else:
         print("Удали строку с routine.py из crontab (crontab -e).")
 
 
 def main():
-    sys.stdout.reconfigure(encoding="utf-8")
-    sys.stderr.reconfigure(encoding="utf-8")
+    if sys.stdout is None:  # pythonw из планировщика: окна нет, вывода нет — пишем в журнал
+        sys.stdout = sys.stderr = open(ROOT / "memory" / "routine.log", "a", encoding="utf-8")
+        print(f"--- {datetime.datetime.now():%Y-%m-%d %H:%M} {' '.join(sys.argv[1:])}")
+    else:
+        sys.stdout.reconfigure(encoding="utf-8")
+        sys.stderr.reconfigure(encoding="utf-8")
     cmd = sys.argv[1] if len(sys.argv) > 1 else "--help"
     actions = {"run": run, "apply": apply, "report": report, "install": install, "uninstall": uninstall,
                "install-dry": lambda: install(dry=True)}
     if cmd not in actions:
         print(__doc__)
         raise SystemExit(0 if cmd in ("-h", "--help") else 2)
-    actions[cmd]()
+    try:
+        actions[cmd]()
+    except Exception:
+        import traceback
+        traceback.print_exc()  # в журнал, если запущены планировщиком
+        raise
 
 
 if __name__ == "__main__":
