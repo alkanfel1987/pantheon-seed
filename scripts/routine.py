@@ -2,6 +2,7 @@
 
     python scripts/routine.py run        # проверить всё и записать memory/routine-status.md
     python scripts/routine.py apply      # поставить подготовленный релиз (только по слову человека)
+    python scripts/routine.py rollback   # вернуть состояние до последнего apply
     python scripts/routine.py report     # сводные числа для формы в pantheon-seed-data (отправляет человек)
     python scripts/routine.py install    # раз в день по расписанию ОС (Windows — планировщик задач)
     python scripts/routine.py uninstall
@@ -19,6 +20,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 STATUS = ROOT / "memory" / "routine-status.md"
+PREV = ROOT / "memory" / "routine-prev.txt"
 SKILLS = ROOT / ".claude" / "skills"
 TASK = "PantheonSeedRoutine"
 
@@ -165,11 +167,29 @@ def apply():
     up = update()
     if up["state"] != "ready":
         raise SystemExit(f"ставить нечего или нельзя: {up['state']} — {up.get('clash') or up['text']}")
+    before = git("rev-parse", "HEAD")[1]
     rc, out, err = git("merge", "--no-edit", up["tag"])
     if rc:
         git("merge", "--abort")
         raise SystemExit(f"слияние не прошло, всё откатано: {err or out}")
-    print(f"поставлен {up['tag']}")
+    after = git("rev-parse", "HEAD")[1]
+    PREV.write_text(f"{before} {after} {up['current']} {up['tag']}\n", encoding="utf-8")
+    print(f"поставлен {up['tag']}; вернуть прежнее: python scripts/routine.py rollback")
+    run()
+
+
+def rollback():
+    """Вернуть состояние до последнего apply — если с тех пор ничего своего не коммитили и не правили."""
+    if not PREV.exists():
+        raise SystemExit("откатывать нечего: apply ещё не запускался")
+    before, after, old, new = PREV.read_text(encoding="utf-8").split()
+    if git("status", "--porcelain")[1]:
+        raise SystemExit("есть незакоммиченные правки — сохрани их, потом откат")
+    if git("rev-parse", "HEAD")[1] != after:
+        raise SystemExit(f"после установки {new} появились свои коммиты — откат сотрёт их; откатывай вручную")
+    git("reset", "--hard", before)
+    PREV.unlink()
+    print(f"возвращено состояние до {new} (было {old})")
     run()
 
 
@@ -204,7 +224,7 @@ def main():
         sys.stdout.reconfigure(encoding="utf-8")
         sys.stderr.reconfigure(encoding="utf-8")
     cmd = sys.argv[1] if len(sys.argv) > 1 else "--help"
-    actions = {"run": run, "apply": apply, "report": report, "install": install, "uninstall": uninstall,
+    actions = {"run": run, "apply": apply, "rollback": rollback, "report": report, "install": install, "uninstall": uninstall,
                "install-dry": lambda: install(dry=True)}
     if cmd not in actions:
         print(__doc__)

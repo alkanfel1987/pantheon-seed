@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(python scripts/routine.py run)",
+      "Bash(python scripts/routine.py report)"
+    ]
+  }
+}

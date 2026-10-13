@@ -1,0 +1,43 @@
+name: Ошибка / Bug
+description: Что-то в миниядре работает не так / Something in the mini-core is broken
+title: "Ошибка: "
+labels: ["ошибка"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        **Всё, что вы напишете, сразу видно всем.** Не вставляйте пути, имена и данные своих проектов. Вопрос или идея — в [Discussions](https://github.com/alkanfel1987/pantheon-seed/discussions). Уязвимость — **не сюда**, а закрыто: [Security → Report a vulnerability](https://github.com/alkanfel1987/pantheon-seed/security/advisories/new). Отвечаем в течение 14 дней.
+
+        **Everything you write here is public at once.** No paths, names or project data. Questions and ideas go to Discussions; vulnerabilities go to the private report link above. We reply within 14 days.
+  - type: input
+    id: version
+    attributes:
+      label: Версия миниядра / Mini-core version
+      description: "`git describe --tags`"
+      placeholder: v0.4.0
+    validations:
+      required: true
+  - type: dropdown
+    id: area
+    attributes:
+      label: Где / Where
+      options:
+        - навык / skill
+        - рутина (routine.py) / routine
+        - мост (bridge.py) / bridge
+        - другой скрипт / other script
+        - документы / docs
+    validations:
+      required: true
+  - type: textarea
+    id: what
+    attributes:
+      label: Что делали и что получили / What you did and what happened
+      description: Шаги, ожидание, факт. Последние строки `memory/routine.log`, если ошибка в рутине (без путей). / Steps, expected, actual.
+    validations:
+      required: true
+  - type: input
+    id: os
+    attributes:
+      label: ОС / OS
+      placeholder: Windows 11 / Ubuntu 24.04 / macOS 15

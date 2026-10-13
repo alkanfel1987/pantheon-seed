@@ -1,0 +1,11 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Вопрос или идея / Question or idea
+    url: https://github.com/alkanfel1987/pantheon-seed/discussions
+    about: Как пользоваться, что добавить, что у вас получилось / How to use it, what to add, what you built
+  - name: Отчёт о работе или навык для ядра / Usage report or skill for the core
+    url: https://github.com/alkanfel1987/pantheon-seed-data/issues/new/choose
+    about: Формы в pantheon-seed-data / Forms in pantheon-seed-data
+  - name: Уязвимость — закрыто / Vulnerability — private
+    url: https://github.com/alkanfel1987/pantheon-seed/security/advisories/new
+    about: Не пишите об уязвимостях публично / Do not report vulnerabilities in public
