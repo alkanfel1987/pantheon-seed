@@ -56,6 +56,8 @@ There is self-learning inside the mini-core too, but the decision is yours: the 
 
 There will be many skills. You won't have to go through them.
 
+- **Pick by your sphere.** [CATALOG.en.md](CATALOG.en.md) lists the skills across twelve spheres of use — law, medicine, product launch, software, history and more — each with its adjacent spheres. Search by your situation: `python scripts/find.py --en medicine` or `python scripts/find.py --en startup contract` — skills of your sphere first, then of the adjacent ones. Or just ask Claude: "which skills fit my task?" — it will work out which spheres you mean.
+
 - **Claude chooses on its own.** Each skill describes the task it is needed for, and Claude Code attaches it when the task matches the description. You write what needs to be done — the right skill fires.
 - **The routine shows what you actually use.** A skill that hasn't been called once in a month can be removed from your setup.
 - **Every accepted skill has its pain named.** `data/skills/` records what it closes and which checks it passed. You search by your pain, not by name.

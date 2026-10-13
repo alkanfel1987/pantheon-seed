@@ -2,7 +2,8 @@
   "permissions": {
     "allow": [
       "Bash(python scripts/routine.py run)",
-      "Bash(python scripts/routine.py report)"
+      "Bash(python scripts/routine.py report)",
+      "Bash(python scripts/find.py:*)"
     ]
   }
 }

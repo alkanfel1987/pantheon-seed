@@ -1,0 +1,30 @@
+{
+  "spheres": {
+    "research":    {"ru": "Исследования и аналитика", "en": "Research and analysis", "find": ["исследован", "аналитик", "наук", "данн", "обзор", "research", "analy", "science", "data"], "near": ["journalism", "history", "health", "education", "product", "engineering"]},
+    "software":    {"ru": "Разработка ПО", "en": "Software development", "find": ["програм", "разработ", "код", "отладк", "баг", "software", "code", "debug", "dev"], "near": ["engineering", "ai-work"]},
+    "product":     {"ru": "Запуск продукта и бизнес", "en": "Product launch and business", "find": ["продукт", "бизнес", "стартап", "рынок", "ниш", "спрос", "product", "business", "startup", "market"], "near": ["decisions", "law", "research"]},
+    "law":         {"ru": "Право и документы", "en": "Law and documents", "find": ["прав", "юрид", "закон", "договор", "регулят", "law", "legal", "contract", "regulat"], "near": ["product", "journalism"]},
+    "journalism":  {"ru": "Журналистика и проверка фактов", "en": "Journalism and fact-checking", "find": ["журналист", "новост", "факт", "расследов", "медиа", "journalis", "news", "fact", "media"], "near": ["research", "content", "law", "history"]},
+    "content":     {"ru": "Тексты и контент", "en": "Writing and content", "find": ["текст", "контент", "пост", "стать", "блог", "публикац", "writing", "content", "blog", "post"], "near": ["journalism", "education"]},
+    "education":   {"ru": "Обучение и самообразование", "en": "Learning and self-education", "find": ["обучен", "учёб", "учеб", "учус", "учит", "изуч", "освоит", "образован", "курс", "learn", "educat", "study", "course"], "near": ["research", "content"]},
+    "engineering": {"ru": "Инженерия и технические системы", "en": "Engineering and technical systems", "find": ["инжен", "техник", "железо", "систем", "инфраструкт", "engineer", "hardware", "infrastruct", "system"], "near": ["software", "research"]},
+    "health":      {"ru": "Здоровье и медицина (чтение исследований)", "en": "Health and medicine (reading research)", "find": ["здоров", "медиц", "врач", "лечен", "health", "medic", "clinical"], "near": ["research"]},
+    "history":     {"ru": "История и гуманитарные исследования", "en": "History and humanities", "find": ["истори", "гуманит", "традиц", "религ", "культур", "history", "humanit", "tradition", "religio", "cultur"], "near": ["research", "journalism"]},
+    "decisions":   {"ru": "Решения и выбор", "en": "Decisions and choices", "find": ["решен", "выбор", "развилк", "стратег", "управлен", "decision", "choice", "strateg", "manag"], "near": ["product"]},
+    "ai-work":     {"ru": "Работа с ИИ-ассистентом", "en": "Working with an AI assistant", "find": ["ии", "ассистент", "агент", "claude", "нейросет", "ai", "assistant", "agent", "llm"], "near": ["software"]}
+  },
+  "skills": {
+    "verification-first":   {"main": ["software", "ai-work", "research"], "also": ["product", "engineering", "content"], "ru": "до работы назвать, чем проверится результат — иначе задача поставлена плохо", "en": "name how the result will be checked before starting — otherwise the task is badly posed"},
+    "source-filter":        {"main": ["research", "journalism", "health", "law", "product"], "also": ["history"], "ru": "источник со стороной: что в нём факт, а что подача и интерес", "en": "a source with a stake: what is fact and what is framing and interest"},
+    "evidence-stratify":    {"main": ["research", "health", "history"], "also": ["journalism", "education", "content", "ai-work"], "ru": "серия утверждений: что измерено, что только сказано, что домысел", "en": "a series of claims: what is measured, what is only said, what is speculation"},
+    "ach-pramana-analysis": {"main": ["research", "journalism", "decisions", "product"], "also": ["history"], "ru": "несколько объяснений — выбрать по свидетельству, а не по первой правдоподобной истории", "en": "several explanations — choose by evidence, not by the first plausible story"},
+    "other-side-voice":     {"main": ["history", "research"], "also": ["journalism"], "ru": "у одной стороны нет источников — почему, и что это значит", "en": "one side has no sources — why, and what it means"},
+    "blind-check":          {"main": ["research", "ai-work"], "also": ["education"], "ru": "своя разметка или вывод — проверить чужими глазами, а не своими", "en": "your own labelling or conclusion — check it with someone else's eyes"},
+    "quarantine":           {"main": ["research", "ai-work"], "also": ["education", "health", "product", "content"], "ru": "новое утверждение — пропустить через фильтр, прежде чем считать его знанием", "en": "a new claim — filter it before you treat it as knowledge"},
+    "deep-debug-loop":      {"main": ["software", "engineering", "ai-work"], "also": ["product"], "ru": "ошибка возвращается — дойти до причины и найти, где ещё она живёт", "en": "a bug keeps coming back — reach the cause and find where else it lives"},
+    "fix-on-sight":         {"main": ["software", "ai-work"], "also": [], "ru": "ошибка всплыла по ходу дела — починить сразу и проверить, что починилось", "en": "a bug showed up mid-task — fix it now and check the fix holds"},
+    "promote-pattern":      {"main": ["ai-work", "software"], "also": [], "ru": "Claude повторяет промах — превратить повтор в правку навыка или правило", "en": "Claude repeats a mistake — turn the repeat into a skill fix or a rule"},
+    "simulate-fork":        {"main": ["decisions", "product", "software"], "also": ["ai-work"], "ru": "несколько несовместимых вариантов — проиграть последствия до выбора", "en": "several incompatible options — play out the consequences before choosing"},
+    "kshetra":              {"main": ["product", "law", "decisions"], "also": ["software"], "ru": "новая идея — проверить, проходимо ли поле (данные, право, платежи, доступ), до вложения сил", "en": "a new idea — check whether the field is passable (data, law, payments, access) before investing"}
+  }
+}

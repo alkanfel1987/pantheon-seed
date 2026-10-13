@@ -45,6 +45,11 @@ def check():
         text = md.read_text(encoding="utf-8") if md.is_file() else ""
         if not re.search(r"^name:", text, re.M) or not re.search(r"^description:", text, re.M):
             problems.append(f"{skill.name}: нет SKILL.md или в нём нет name/description")
+    try:
+        listed = json.loads((ROOT / "catalog.json").read_text(encoding="utf-8"))["skills"]
+        problems += [f"catalog.json: навыка {k} нет в .claude/skills" for k in listed if not (SKILLS / k / "SKILL.md").is_file()]
+    except (OSError, ValueError, KeyError) as e:
+        problems.append(f"catalog.json не читается: {e}")
     for md in ROOT.rglob("*.md"):
         if ".git" in md.parts or md.parent.name == "session_traces":
             continue
