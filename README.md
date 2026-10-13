@@ -37,6 +37,8 @@ python scripts/routine.py install
 
 Подписаться на релизы: на странице репозитория Watch → Custom → Releases.
 
+**Поделиться, как работает миниядро:** `python scripts/routine.py report` печатает сводные числа (без путей и текстов). Их можно вставить в форму «Отчёт о работе» в [pantheon-seed-data](https://github.com/alkanfel1987/pantheon-seed-data). Отправляешь ты сам, рутина ничего не шлёт.
+
 ## Что внутри
 
 | Семейство | Навыки |

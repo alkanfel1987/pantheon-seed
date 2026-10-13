@@ -2,6 +2,7 @@
 
     python scripts/routine.py run        # проверить всё и записать memory/routine-status.md
     python scripts/routine.py apply      # поставить подготовленный релиз (только по слову человека)
+    python scripts/routine.py report     # сводные числа для формы в pantheon-seed-data (отправляет человек)
     python scripts/routine.py install    # раз в день по расписанию ОС (Windows — планировщик задач)
     python scripts/routine.py uninstall
 
@@ -130,6 +131,29 @@ def run():
     print(f"готово → {STATUS} · обновление: {up['state']} · проблем: {len(problems)}")
 
 
+def scrub(text):
+    """Убрать из текста пути, по которым видно имя пользователя и устройство машины."""
+    for p in (str(ROOT), str(Path.home())):
+        text = text.replace(p, "~").replace(p.replace("\\", "/"), "~")
+    return re.sub(r"[A-Za-z]:[\\/][^\s'\"]*|/(?:home|Users)/[^\s'\"]*", "<путь>", text)
+
+
+def report():
+    """Текст для формы «Отчёт о работе» в pantheon-seed-data: только сводные числа и имена навыков."""
+    import platform
+    skills, scripts, problems = check()
+    calls = usage()
+    version = git("describe", "--tags", "--match", "v*")[1] or "без релиза"
+    sessions = len(list(journal_dir().glob("*.jsonl")))
+    out = [f"версия: {version}", f"ОС: {platform.system()}", f"навыков: {skills} · скриптов: {scripts}",
+           f"сессий в журнале: {sessions}", f"проблем целостности: {len(problems)}"]
+    out += [f"  - {scrub(p)}" for p in problems]
+    out += ["вызовы навыков:"] + ([f"  - {k}: {v}" for k, v in calls.most_common()] or ["  нет"])
+    out += ["цикл обучения:"] + [f"  {scrub(l)}" for l in patterns()]
+    print("\n".join(out))
+    print("\nВставить в форму: https://github.com/alkanfel1987/pantheon-seed-data/issues/new?template=report.yml")
+
+
 def apply():
     up = update()
     if up["state"] != "ready":
@@ -166,7 +190,7 @@ def main():
     sys.stdout.reconfigure(encoding="utf-8")
     sys.stderr.reconfigure(encoding="utf-8")
     cmd = sys.argv[1] if len(sys.argv) > 1 else "--help"
-    actions = {"run": run, "apply": apply, "install": install, "uninstall": uninstall,
+    actions = {"run": run, "apply": apply, "report": report, "install": install, "uninstall": uninstall,
                "install-dry": lambda: install(dry=True)}
     if cmd not in actions:
         print(__doc__)
@@ -176,4 +200,5 @@ def main():
 
 if __name__ == "__main__":
     assert journal_dir(Path(r"C:\ProjectS\pantheon-seed")).name == "C--ProjectS-pantheon-seed"
+    assert "Ivan" not in scrub(r"FileNotFoundError: 'C:\Users\Ivan\x.md' и /home/Ivan/y")
     main()
