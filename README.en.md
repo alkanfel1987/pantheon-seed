@@ -117,6 +117,17 @@ Install and update the mini-core **only from `alkanfel1987/pantheon-seed`**: we 
 
 Sessions are started from this folder: Claude Code picks up the skills from `.claude/skills/`, the rules from `CLAUDE.md` and the memory from `memory/` by itself. There is nothing to install. On first launch Claude Code will ask whether to trust the folder — after "yes" the permissions from `.claude/settings.json` take effect too: only the check (`routine.py run`) and the report (`routine.py report`) run without a prompt, and Claude asks about everything else.
 
+### Skills only, in one command
+
+If you only want the standalone skills, without memory and rules, install them as a plugin from any folder:
+
+```
+/plugin marketplace add alkanfel1987/pantheon-seed
+/plugin install pantheon-seed-skills@pantheon-seed
+```
+
+You get 8 skills: `ach-pramana-analysis`, `deep-debug-loop`, `evidence-stratify`, `kshetra`, `other-side-voice`, `simulate-fork`, `source-filter`, `verification-first` (the skill texts are in Russian). Blind check, quarantine, fix-on-sight and pattern promotion work only from the mini-core folder — they need `memory/` and `scripts/`, so they are not in the plugin. Learning from your own mistakes comes only with the full mini-core.
+
 ### Working with your own projects
 
 The mini-core works where Claude Code is open. So **open Claude Code in the mini-core folder and attach your project as a second directory**:

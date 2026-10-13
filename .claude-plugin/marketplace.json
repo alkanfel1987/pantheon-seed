@@ -1,0 +1,31 @@
+{
+  "name": "pantheon-seed",
+  "owner": {
+    "name": "alkanfel1987",
+    "url": "https://github.com/alkanfel1987/pantheon-seed"
+  },
+  "metadata": {
+    "description": "Pantheon Seed: a mini core for Claude Code that learns from your work. Standalone skills for evidence, decisions and debugging. The full core (memory, rules, pattern promotion) installs by cloning the repo."
+  },
+  "plugins": [
+    {
+      "name": "pantheon-seed-skills",
+      "description": "Standalone thinking skills (Russian-language): competing hypotheses, evidence tiers, source filtering, fork simulation, verification-first, layered debugging, field reconnaissance, the silent side's voice.",
+      "source": "./",
+      "strict": false,
+      "author": { "name": "alkanfel1987" },
+      "homepage": "https://github.com/alkanfel1987/pantheon-seed",
+      "license": "MIT",
+      "skills": [
+        "./.claude/skills/ach-pramana-analysis",
+        "./.claude/skills/deep-debug-loop",
+        "./.claude/skills/evidence-stratify",
+        "./.claude/skills/kshetra",
+        "./.claude/skills/other-side-voice",
+        "./.claude/skills/simulate-fork",
+        "./.claude/skills/source-filter",
+        "./.claude/skills/verification-first"
+      ]
+    }
+  ]
+}
