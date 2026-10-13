@@ -1,0 +1,16 @@
+# Память и трейсы — твои, в публичный форк не уходят. Делятся только навыки.
+memory/*
+!memory/MEMORY.md
+!memory/pattern-promotion.md
+!memory/session_traces/
+memory/session_traces/*
+!memory/session_traces/_template.md
+!memory/quarantine/
+memory/quarantine/*
+!memory/quarantine/.gitkeep
+!memory/blind_checks/
+memory/blind_checks/*
+!memory/blind_checks/.gitkeep
+harvest-*.md
+__pycache__/
+*.pyc
