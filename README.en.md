@@ -2,15 +2,34 @@
 
 **Русский:** [README.md](README.md)
 
-A mini-core for Claude Code: twelve skills for working with information and quality, a memory scaffold and session rules. You train it on your own tasks.
+The mini-core gives Claude Code skills, memory and rules. They learn from your work and receive what others have learned. It starts with twelve skills. After that there will be as many as grow out of the work of everyone who uses it.
 
 The skills are written in Russian.
 
-## Why this exists
+## Sound familiar?
 
-One person finds their own mistakes slowly: for a class of slip to become visible, it has to repeat several times. If many people train the mini-core, each on their own tasks, the shared core grows from everyone's experience at once.
+If you work with Claude every day, you've seen this.
 
-The goal of the project is **a core that learns faster from the experience of many people and gives that experience back to each of them**. You train your mini-core. Skills that have worked for you go through review and enter the shared core. From there they reach all users, together with our own improvements, in the next release.
+- **Confident, and wrong.** Claude cites an article it never opened, retells a retelling, names a number nobody measured. It sounds convincing, and checking it falls to you.
+  → `verification-first`, `source-filter` and `evidence-stratify` make it open the source first, separate what was measured from what was merely said, and mark what each conclusion rests on.
+- **The same mistake for the fifth time.** You corrected it, and in the next session it does the same thing. An agreement lives until the end of the conversation.
+  → The mini-core writes slips into the session trace. A class of slip that repeats three times becomes a fix to a skill or a rule in `memory/rules.md` — and the fix stays.
+- **"I checked — all correct."** Claude checks its own work and, of course, approves it.
+  → `blind-check`: a separate executor does the checking, and it sees only the material, not the author's reasoning. The expectation is written down before the check, so it can't be fitted afterwards.
+- **Fixed the symptom — the bug came back.**
+  → `deep-debug-loop` goes down layer by layer to the cause and checks where else in the system the same error lives.
+- **Memory lies.** What Claude "remembers" about your project went stale a month ago, but it is presented as fact.
+  → Memory here is a snapshot: before advising from memory, Claude re-checks the file or the fact. An unverified claim doesn't get into memory at all — that is what `quarantine` is for.
+- **Skills from the internet are a lottery.** Huge prompt bundles: half of them don't work, some install hooks and scripts that do who knows what on your machine.
+  → A skill gets in here only if it has already worked for someone on a real task, passed quarantine, a blind check and a human decision. Hooks are not accepted at all.
+- **You are alone.** Everything you worked out yourself — how to stop Claude inventing sources, how to run debugging — lives in your head and is lost if you don't write it down.
+  → What worked for you can be given to the shared core. What worked for others comes to you.
+
+## Why your mini-core needs to grow
+
+At the start the mini-core is the same for everyone. It becomes valuable when it starts to reflect your work: your frequent slips are closed by rules, your techniques have become skills, memory knows your projects. Each week with it makes the next one cheaper: less correcting, less re-checking.
+
+The second source of growth is other people. You close your own ten typical mistakes. A hundred people each close theirs, and you will run into many of those tomorrow without knowing about them yet. The core collects these solutions, and they reach you before you step on the same rake.
 
 ```
   main core ──── release ────▶ mini-core of every user
@@ -20,6 +39,28 @@ The goal of the project is **a core that learns faster from the experience of ma
    blind check                              ▼
    human decision ◀── form or fork ── skill that worked
 ```
+
+## Why skills come from people, not from machine self-learning
+
+We could have let the system learn on its own: collect logs, compute metrics, rewrite instructions automatically. We chose otherwise.
+
+- **A machine learns from what can be measured, not from what matters.** A metric sees "answer received" and doesn't see "the answer is wrong, and it will surface in a week". A skill that a person shared has been through their real task — one where a mistake cost time or money.
+- **Whoever grades themselves piles up their own error.** If the same Claude invents a fix and itself decides that it helped, its blind spots aren't caught, they are reinforced. An independent view is needed. Another person, for whom the skill worked on a different task, is exactly that check.
+- **A machine invents protection against troubles that never happened.** Rewriting itself from logs, a system grows rules against failures that never occurred. No metric will show this until the context gets clogged with extras. A skill from a person names the pain it closes and the condition under which it is removed.
+- **A skill can be read.** It is plain text: you can see what it does and adjust it to yourself. Automatically rewritten instructions turn into something nobody wrote and nobody understands.
+- **A machine needs mountains of data; a skill needs one working case and a check.** The mini-core is useful from day one, not after thousands of sessions.
+
+There is self-learning inside the mini-core too, but the decision is yours: the counter shows what repeats, and you accept the fix.
+
+## How to find your own in the shared stream
+
+There will be many skills. You won't have to go through them.
+
+- **Claude chooses on its own.** Each skill describes the task it is needed for, and Claude Code attaches it when the task matches the description. You write what needs to be done — the right skill fires.
+- **The routine shows what you actually use.** A skill that hasn't been called once in a month can be removed from your setup.
+- **Every accepted skill has its pain named.** `data/skills/` records what it closes and which checks it passed. You search by your pain, not by name.
+- **Users' reports show what works for many.** Which skills are called more often and where they break is visible in the shared numbers.
+- **Not everything reaches you.** A filter at the entrance cuts off the noise: only what passed the check gets into a release.
 
 ## Project goals and what they give you
 
