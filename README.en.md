@@ -174,7 +174,7 @@ To follow releases: on the repository page, Watch → Custom → Releases.
 | quality | `deep-debug-loop` · `fix-on-sight` · `promote-pattern` |
 | decisions | `simulate-fork` · `kshetra` |
 
-`docs/` holds the foundations: the map of methods, the Pramana five, the 7+1 quarantine filter. `memory/` is the memory scaffold: an index, a sample session trace, the tag convention. `scripts/` holds the blind check, the repeat counter and the bridge.
+`docs/` holds the foundations: the map of methods, a [practice map by reader pain](docs/methods-practice.md) (in Russian: methods that were actually run, grouped by the problem they address), the Pramana five, the 7+1 quarantine filter. `memory/` is the memory scaffold: an index, a sample session trace, the tag convention. `scripts/` holds the blind check, the repeat counter and the bridge.
 
 ## How the mini-core learns
 
@@ -185,6 +185,16 @@ To follow releases: on the repository page, Watch → Custom → Releases.
 ## What goes out and what does not
 
 **Memory and session traces stay with you** — they are in `.gitignore` and do not reach a public fork. Only the skills from `.claude/skills/` are shared, and only if you committed them to your fork yourself.
+
+### Share a summary of your mistakes
+
+If you want to help the core see which mistakes many people make, run `python scripts/share_errors.py`. The script reads the `failure-mode` tags in your session traces and shows the whole summary. You answer yes or no; it **sends nothing itself**: it prints a link to the "Error summary" form in [pantheon-seed-data](https://github.com/alkanfel1987/pantheon-seed-data) with the text already filled in, and only you can check the fields, tick the box and press Submit.
+
+- **The summary has:** the skills version, the date, names of classes from the shared dictionary (`memory/pattern-promotion.md`, "Словарь базовых классов") with how many times each occurred, and a line "прочие: N" — how many tags are not from the dictionary.
+- **The summary does not have:** trace texts or descriptions of mistakes, moments, paths, names, project names, or names of classes outside the dictionary (even the name of your own class can carry something personal, so it is visible only as a number).
+- **Your GitHub login is visible:** the issue is opened from your account, and it is public like any submission. The login is needed to count different people: a class goes to review only if at least three people submitted it. One person counts once, however many times they submit.
+
+To check the script: `python scripts/share_errors.py --self-test`.
 
 ## How a contribution reaches the core
 
@@ -202,7 +212,7 @@ Hooks and settings are not accepted at all. More in [CONTRIBUTING.en.md](CONTRIB
 |---|---|
 | a bug | Issues of this repository — the "Bug" form |
 | a question, an idea, "here is what I got working" | [Discussions](https://github.com/alkanfel1987/pantheon-seed/discussions) |
-| a work report, a skill for the core | forms in [pantheon-seed-data](https://github.com/alkanfel1987/pantheon-seed-data) |
+| a work report, an error summary, a skill for the core | forms in [pantheon-seed-data](https://github.com/alkanfel1987/pantheon-seed-data) |
 | a vulnerability | **private**: [Security → Report a vulnerability](https://github.com/alkanfel1987/pantheon-seed/security/advisories/new), see [SECURITY.md](SECURITY.md) |
 
 We review submissions once a week and **reply within 14 days**. GitHub itself will notify you about labels and comments on your submission.

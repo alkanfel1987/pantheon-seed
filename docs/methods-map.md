@@ -80,4 +80,4 @@ source: pantheon (адаптировано для миниядра, 2026-10-13)
 
 ## Связи
 
-[pramana-panchaka.md](pramana-panchaka.md) · [quarantine.md](quarantine.md) · [../memory/pattern-promotion.md](../memory/pattern-promotion.md) (как фиксировать и промотировать повторяющиеся ошибки этих методов)
+[methods-practice.md](methods-practice.md) (каталог методов по болям читателя: что прогонялось на деле) · [pramana-panchaka.md](pramana-panchaka.md) · [quarantine.md](quarantine.md) · [../memory/pattern-promotion.md](../memory/pattern-promotion.md) (как фиксировать и промотировать повторяющиеся ошибки этих методов)
